@@ -1,0 +1,139 @@
+{
+	"info": {
+		"_postman_id": "9536ac39-f1ba-4dab-b942-f3df403b2c68",
+		"name": "postman_collection",
+		"description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "51085755",
+		"_collection_link": "https://rohit117yadav-1337291.postman.co/workspace/1b59c75f-16da-45dd-83fe-ff7f879eff9f/collection/51085755-9536ac39-f1ba-4dab-b942-f3df403b2c68?action=share&source=collection_link&creator=51085755"
+	},
+	"item": [
+		{
+			"name": "Uplift Modeling – AWS Lambda Inference API",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Visualization Script",
+							"// Visualization Script",
+							"var template = `",
+							"<div style=\"font-family: Arial, sans-serif; padding: 20px;\">",
+							"    <div style=\"margin-bottom: 20px; padding: 15px; background-color: #f5f5f5; border-radius: 8px;\">",
+							"        <h3 style=\"margin: 0 0 10px 0; color: #333;\">Model: {{model}}</h3>",
+							"        <p style=\"margin: 0; color: #666;\">Number of predictions (n): {{n}}</p>",
+							"    </div>",
+							"    <canvas id=\"predictionChart\" height=\"100\"></canvas>",
+							"</div>",
+							"<script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js\"></script>",
+							"<script>",
+							"    var ctx = document.getElementById(\"predictionChart\");",
+							"    var chart = new Chart(ctx, {",
+							"        type: \"bar\",",
+							"        data: {",
+							"            labels: [\"p_treated\", \"p_control\", \"uplift\"],",
+							"            datasets: [{",
+							"                label: \"Probability / Uplift Values\",",
+							"                data: [],",
+							"                backgroundColor: [",
+							"                    \"rgba(54, 162, 235, 0.7)\",",
+							"                    \"rgba(255, 159, 64, 0.7)\",",
+							"                    \"rgba(255, 99, 132, 0.7)\"",
+							"                ],",
+							"                borderColor: [",
+							"                    \"rgba(54, 162, 235, 1)\",",
+							"                    \"rgba(255, 159, 64, 1)\",",
+							"                    \"rgba(255, 99, 132, 1)\"",
+							"                ],",
+							"                borderWidth: 2",
+							"            }]",
+							"        },",
+							"        options: {",
+							"            legend: { display: true },",
+							"            title: {",
+							"                display: true,",
+							"                text: \"Prediction Comparison: p_treated vs p_control vs uplift\"",
+							"            },",
+							"            scales: {",
+							"                xAxes: [{",
+							"                    display: true,",
+							"                    scaleLabel: {",
+							"                        display: true,",
+							"                        labelString: \"Metric\"",
+							"                    }",
+							"                }],",
+							"                yAxes: [{",
+							"                    display: true,",
+							"                    scaleLabel: {",
+							"                        display: true,",
+							"                        labelString: \"Value\"",
+							"                    }",
+							"                }]",
+							"            }",
+							"        }",
+							"    });",
+							"",
+							"    pm.getData(function (err, value) {",
+							"        chart.data.datasets[0].data = [value.p_treated, value.p_control, value.uplift];",
+							"        chart.update();",
+							"    });",
+							"</script>`;",
+							"",
+							"function createPayload() {",
+							"    var response = pm.response.json();",
+							"    var prediction = response.predictions[0];",
+							"    return {",
+							"        model: response.model,",
+							"        n: response.n,",
+							"        p_treated: prediction.p_treated,",
+							"        p_control: prediction.p_control,",
+							"        uplift: prediction.uplift",
+							"    };",
+							"}",
+							"",
+							"pm.visualizer.set(template, createPayload());"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"instances\": [\n    {\n      \"f0\": 1, \"f1\": 2, \"f2\": 3, \"f3\": 4,\n      \"f4\": 5, \"f5\": 6, \"f6\": 7, \"f7\": 8,\n      \"f8\": 9, \"f9\": 10, \"f10\": 11, \"f11\": 12\n    }\n  ]\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://b0t5ntje2g.execute-api.eu-north-1.amazonaws.com/prod/predict",
+					"protocol": "https",
+					"host": [
+						"b0t5ntje2g",
+						"execute-api",
+						"eu-north-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"prod",
+						"predict"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
